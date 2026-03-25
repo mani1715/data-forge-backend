@@ -28,6 +28,7 @@ def set_current_df(df):
 def upload_file():
     global CURRENT_DF, CURRENT_FILE_PATH
     
+    print("Upload API called")
     print(f"Upload request size: {request.content_length} bytes")
     
     if 'file' not in request.files:
