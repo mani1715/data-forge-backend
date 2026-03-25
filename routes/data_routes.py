@@ -81,9 +81,12 @@ def upload_file():
             return jsonify({'error': 'Unsupported file format'}), 400
 
         print(f"DataFrame loaded: {df.shape[0]} rows, {df.shape[1]} columns")
+<<<<<<< HEAD
         print("UPLOAD SUCCESS")
         print("Rows:", df.shape[0])
         print("Columns:", df.shape[1])
+=======
+>>>>>>> 430d2eb6313e2e32aa5c41ffac1b0f19f117ef29
         
         # STEP 3: Save to memory for later operations
         CURRENT_DF = df
@@ -91,6 +94,7 @@ def upload_file():
         
         # STEP 4: Profile the data
         print("Profiling data...")
+<<<<<<< HEAD
         score = DataProfiler.calculate_quality_score(df)
         chart_data = DataProfiler.get_chart_data(df)
         
@@ -110,6 +114,21 @@ def upload_file():
             "summary": summary,
             "preview": df.head(20).to_dict(orient="records"),
             "chart_data": chart_data or {}
+=======
+        summary = DataProfiler.get_summary(df)
+        score = DataProfiler.calculate_quality_score(df)
+        chart_data = DataProfiler.get_chart_data(df)
+        
+        # STEP 5: Prepare Response
+        print("Preparing response...")
+        response = {
+            'message': 'File uploaded successfully',
+            'filename': filename,
+            'quality_score': score,
+            'summary': summary,
+            'chart_data': chart_data,
+            'preview': df.head(20).fillna("NaN").to_dict(orient='records')
+>>>>>>> 430d2eb6313e2e32aa5c41ffac1b0f19f117ef29
         }
         
         print("Upload complete!")
@@ -118,11 +137,19 @@ def upload_file():
     except pd.errors.EmptyDataError:
         return jsonify({'error': 'The uploaded file is empty'}), 400
     except Exception as e:
+<<<<<<< HEAD
         print("UPLOAD ERROR:", str(e))
         # Clean up file on error
         if 'file_path' in locals() and os.path.exists(file_path):
             os.remove(file_path)
         return jsonify({"error": str(e)}), 500
+=======
+        print(f"Error during upload: {str(e)}")
+        # Clean up file on error
+        if 'file_path' in locals() and os.path.exists(file_path):
+            os.remove(file_path)
+        return jsonify({'error': f'Error processing file: {str(e)}'}), 500
+>>>>>>> 430d2eb6313e2e32aa5c41ffac1b0f19f117ef29
 
 
 @data_bp.route('/download', methods=['GET'])
