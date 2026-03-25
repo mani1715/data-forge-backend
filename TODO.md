@@ -1,13 +1,1 @@
-# DataForge Backend TODO
-Completed:
-- [x] Verified POST /api/upload route exists in routes/data_routes.py
-- [x] Confirmed JSON response structure: quality_score, summary, preview, chart_data using jsonify()
-- [x] Ensured CORS allows frontend origins (app.py has CORS for /api/* origins *)
-- [x] Added debug print: "Upload API called" in upload_file()
-
-All checks passed. Endpoint ready.
-
-To test:
-1. python app.py  (runs on http://0.0.0.0:8001)
-2. curl -X POST http://localhost:8001/api/upload -F "file=@yourfile.csv"
-3. Check terminal for "Upload API called" and JSON response with quality_score, summary, preview, chart_data
+# DataForge Backend-Frontend Integration Fix\n\n## Status\n✅ **Backend**: Fully verified - JSON responses, CORS, logging, gunicorn ready\n❌ **Frontend**: API URL config (production relative path issue)\n\n## Steps\n\n### 1. Frontend Config (Priority)\n- [ ] In `c:/Projects/data-forge-frontend-main/.env`:\n  ```\n  REACT_APP_BACKEND_URL=http://localhost:8001  # Dev\n  # For prod: REACT_APP_BACKEND_URL=https://your-backend.railway.app\n  ```\n- [ ] Rebuild frontend: `cd ../data-forge-frontend-main && npm run build`\n\n### 2. Test Development\n- [ ] Backend: `gunicorn app:app` (or `python app.py`)\n- [ ] Frontend: `cd ../data-forge-frontend-main && npm start`\n- [ ] Upload file → expect JSON (quality_score, summary, etc.)\n- [ ] Curl test backend:\n  ```bash\n  curl -X POST -F \"file=@test.csv\" http://localhost:8001/api/upload\n  ```\n\n### 3. Production Deploy\n- [ ] Railway backend → note URL\n- [ ] Update frontend .env.prod / platform env vars with backend URL\n- [ ] Redeploy frontend (Vercel/Netlify/Railway)\n- [ ] Test prod upload → JSON from backend\n\n### 4. Optional Polish\n- [ ] Backend log: Change to exact \"Upload API hit\" if desired\n\n**Next:** Fix frontend .env → test → deploy.
